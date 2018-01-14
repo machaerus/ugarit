@@ -1,0 +1,5 @@
+https://stackoverflow.com/questions/8942604/embed-evince-python-gi
+
+https://stackoverflow.com/questions/10978447/python-gtk3-evince-viewer-how-to-reload-document
+
+https://wiki.sugarlabs.org/go/Features/Evince_Introspection_Bindings
