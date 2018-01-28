@@ -6,6 +6,15 @@ Note: Ugarit is in very early stage. I plan to turn this into a full-fledged app
 
 Please donate to [SciHub](https://sci-hub.tw/), support them and spread the word.
 
+## Requirements
+
+* Python 3.5+
+* BeautifulSoup
+* habanero
+* hashlib
+* requests
+
+
 ## Credits
 
 Interface to SciHub originally written by [zaytoun](https://github.com/zaytoun/scihub.py).
