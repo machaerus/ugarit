@@ -129,54 +129,74 @@ class Ugarit():
 		return cn.content_negotiation(ids=doi, format="bibentry")
 
 
+def main():
 
-ugarit = Ugarit()
+	ugarit = Ugarit()
 
-print()
-print("Search for a new article.")
-print("-------------------------")
-print()
-
-query = input("{:20}".format("Query:"))
-
-print()
-
-offset = 0
-while True:
-	ugarit.crossref_search(query, offset)
-	ugarit.print_search_results()
 	print()
-	load_more = input("Load more results? [y/n] ")
-	if load_more == "n":
+	print("Search for a new article.")
+	print("-------------------------")
+	print()
+
+	query = input("{:20}".format("Query:"))
+
+	print()
+
+	offset = 0
+	while True:
+		ugarit.crossref_search(query, offset)
+		ugarit.print_search_results()
+		print()
+		load_more = input("Load more results? [y/n] ")
+		if load_more == "n":
+			break
+		elif load_more == "y":
+			offset += 20
+			continue
 		break
-	elif load_more == "y":
-		offset += 20
-		continue
-	break
 
-print()
+	print()
 
-article_no = input("Select article: ")
-doi = ugarit.get_doi(int(article_no))
+	article_no = input("Select article: ")
+	doi = ugarit.get_doi(int(article_no))
 
-print()
-print("Checking Unpaywall...")
-check_unpaywall = ugarit.unpaywall_check(doi)
-if check_unpaywall:
-	input = input("Article found on Unpaywall. Do you want to download? [y/n] ")
-	if input == "y":
-		print("Downloading (a little patience please)...")
-		ugarit.unpaywall_download(doi)
-		print("Done!")
-	elif input == "n":
-		print("Kthxbai!")
-else:
-	input = input("Article is not accessible for free. Do you want to try SciHub? [y/n] ")
-	if input == "y":
-		print("Downloading (a little patience please)...")
-		if ugarit.scihub_download(doi):
-			print("Done!")
-		else: 
-			print("Sorry, can't find it!")
-	elif input == "n":
-		print("Kthxbai!")
+	print("[1] Download item")
+	print("[2] Download citation (BibTeX)")
+	action_download = input("What do you want to do? ")
+
+	if action_download == "1":
+
+		print()
+		print("Checking Unpaywall...")
+		check_unpaywall = ugarit.unpaywall_check(doi)
+		if check_unpaywall:
+			action = input("Article found on Unpaywall. Do you want to download? [y/n] ")
+			if action == "y":
+				print("Downloading (a little patience please)...")
+				ugarit.unpaywall_download(doi)
+				print("Done!")
+			elif action == "n":
+				print("Kthxbai!")
+		else:
+			action = input("Article is not accessible for free. Do you want to try SciHub? [y/n] ")
+			if action == "y":
+				print("Downloading (a little patience please)...")
+				if ugarit.scihub_download(doi):
+					print("Done!")
+				else: 
+					print("Sorry, can't find it!")
+			elif action == "n":
+				print("Kthxbai!")
+
+	elif action_download == "2":
+
+		print()
+		print("Downloading citation data...")
+		citation = ugarit.crossref_get_citation(doi)
+		print()
+		print(citation)
+		print()
+
+
+if __name__ == '__main__':
+	main()
